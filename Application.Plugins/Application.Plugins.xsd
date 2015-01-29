@@ -1,0 +1,31 @@
+﻿<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:tns="urn:Application.Plugins.Config"
+           targetNamespace="urn:Application.Plugins.Config"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="pluginConfigSection">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="cache" maxOccurs="1" minOccurs="0">
+          <xs:complexType>
+            <xs:attribute name="type">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="FileWatch"/>
+                  <xs:enumeration value="TimeInterval"/>
+                  <xs:enumeration value="TimeInterval,FileWatch"/>
+                  <xs:enumeration value="FileWatch,TimeInterval"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute type="xs:double" name="cacheExpiryInterval"/>
+            <xs:attribute type="xs:boolean" name="slidingExpiration"/>
+            <xs:attribute type="xs:double" name="filesystemWatcherDelay"/>
+            <xs:attribute type="xs:boolean" name="autoReloadOnCacheExpire"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="pluginsFolder"/>
+      <xs:attribute type="xs:string" name="keepFileHandle"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

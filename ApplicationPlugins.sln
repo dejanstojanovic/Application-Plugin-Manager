@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Plugins", "Application.Plugins\Application.Plugins.csproj", "{6529CDBE-40C7-41D9-9578-8684A7841810}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Plugins.Testing", "Application.Plugins.Testing\Application.Plugins.Testing.csproj", "{E253880A-24EC-4D3A-9CDD-CB7421CA073F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Sample.Plugin1", "Application.Sample.Plugin1\Application.Sample.Plugin1.csproj", "{2B8D8652-FFBA-4E87-9742-2C0F93421127}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Sample.Plugin2", "Application.Sample.Plugin2\Application.Sample.Plugin2.csproj", "{EE031DDD-9A38-4ACD-9ADF-AF5E7B158A85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Sample.PluginHost", "Application.Sample.PluginHost\Application.Sample.PluginHost.csproj", "{210EC088-EA97-4F27-86DF-8A86D884A93B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Sample.Base", "Application.Sample.Base\Application.Sample.Base.csproj", "{36C6909A-8B6A-4A76-9AD8-2AE28BCBBE40}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dejanstojanovic.visualstudio.com/defaultcollection
+		SccProjectUniqueName0 = Application.Plugins\\Application.Plugins.csproj
+		SccProjectName0 = Application.Plugins
+		SccAuxPath0 = https://dejanstojanovic.visualstudio.com/defaultcollection
+		SccLocalPath0 = Application.Plugins
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = Application.Plugins.Testing\\Application.Plugins.Testing.csproj
+		SccProjectName1 = Application.Plugins.Testing
+		SccAuxPath1 = https://dejanstojanovic.visualstudio.com/defaultcollection
+		SccLocalPath1 = Application.Plugins.Testing
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = Application.Sample.Plugin1\\Application.Sample.Plugin1.csproj
+		SccProjectName2 = Application.Sample.Plugin1
+		SccAuxPath2 = https://dejanstojanovic.visualstudio.com/defaultcollection
+		SccLocalPath2 = Application.Sample.Plugin1
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName3 = Application.Sample.Plugin2\\Application.Sample.Plugin2.csproj
+		SccProjectName3 = Application.Sample.Plugin2
+		SccAuxPath3 = https://dejanstojanovic.visualstudio.com/defaultcollection
+		SccLocalPath3 = Application.Sample.Plugin2
+		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName4 = Application.Sample.PluginHost\\Application.Sample.PluginHost.csproj
+		SccProjectName4 = Application.Sample.PluginHost
+		SccAuxPath4 = https://dejanstojanovic.visualstudio.com/defaultcollection
+		SccLocalPath4 = Application.Sample.PluginHost
+		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName5 = Application.Sample.Base\\Application.Sample.Base.csproj
+		SccProjectName5 = Application.Sample.Base
+		SccAuxPath5 = https://dejanstojanovic.visualstudio.com/defaultcollection
+		SccLocalPath5 = Application.Sample.Base
+		SccProvider5 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6529CDBE-40C7-41D9-9578-8684A7841810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6529CDBE-40C7-41D9-9578-8684A7841810}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6529CDBE-40C7-41D9-9578-8684A7841810}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6529CDBE-40C7-41D9-9578-8684A7841810}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E253880A-24EC-4D3A-9CDD-CB7421CA073F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E253880A-24EC-4D3A-9CDD-CB7421CA073F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E253880A-24EC-4D3A-9CDD-CB7421CA073F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E253880A-24EC-4D3A-9CDD-CB7421CA073F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B8D8652-FFBA-4E87-9742-2C0F93421127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B8D8652-FFBA-4E87-9742-2C0F93421127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B8D8652-FFBA-4E87-9742-2C0F93421127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B8D8652-FFBA-4E87-9742-2C0F93421127}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE031DDD-9A38-4ACD-9ADF-AF5E7B158A85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE031DDD-9A38-4ACD-9ADF-AF5E7B158A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE031DDD-9A38-4ACD-9ADF-AF5E7B158A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE031DDD-9A38-4ACD-9ADF-AF5E7B158A85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{210EC088-EA97-4F27-86DF-8A86D884A93B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{210EC088-EA97-4F27-86DF-8A86D884A93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{210EC088-EA97-4F27-86DF-8A86D884A93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{210EC088-EA97-4F27-86DF-8A86D884A93B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36C6909A-8B6A-4A76-9AD8-2AE28BCBBE40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C6909A-8B6A-4A76-9AD8-2AE28BCBBE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36C6909A-8B6A-4A76-9AD8-2AE28BCBBE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36C6909A-8B6A-4A76-9AD8-2AE28BCBBE40}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
