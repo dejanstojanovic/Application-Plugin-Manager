@@ -1,8 +1,15 @@
 # Application-Plugin-Manager
 Advanced plugin management in application, especially deigned for heavy load services which requires high performance in multi-thread environment while keeping hight level of extensibility with 0% downtime when upgrading the service functionality.
 
-###Performance boost with using plugin assembly caching
+###What is it
+The initial idea for this library was to use simple plugin approach described in my blog [http://dejanstojanovic.net/aspnet/2014/october/simple-plugin-host-application-approach/](http://dejanstojanovic.net/aspnet/2014/october/simple-plugin-host-application-approach/). 
 
+This simple approach can be useful for desktop application when your plugin will be loadad in your app most probably only once, but in case you want to use this approach in some very busy services, you might get out of the memory pretty quickly. That is why I started working on this library to enable using plugins without worries that application will loose on performance even though functinality is splited into seperate assembly files.
+
+###Performance boost with using plugin assembly caching
+The real power of application manager can be noticed when used ih multitherad, frequent plugin assembly load such as WCF services or similar services which need to process large amount of request using distributed code in isolated assemblies.
+
+####High load of plugins without caching used
 ```cs
 static void Main(string[] args)
 {
@@ -32,6 +39,7 @@ static void Main(string[] args)
 
 Managed memory performance graph WITHOUT using advanced plugin assembly caching
 
+####High load of plugins without caching used
 ```cs
 static void Main(string[] args)
 {
