@@ -252,8 +252,9 @@ namespace Application.Plugins
         /// </summary>
         /// <typeparam name="T">Type of plugin base implementing IPlugin interface</typeparam>
         /// <param name="PluginName">Plugin assembly filename or full path to plugin assembly</param>
+        /// /// <param name="Subfolder">Optional subfolder name where plugin assembly is located inside plugins folder</param>
         /// <returns></returns>
-        public IEnumerable<T> GetPlugin<T>(string PluginName) where T : Plugin, IPlugin
+        public IEnumerable<T> GetPlugin<T>(string PluginName, string Subfolder = null) where T : Plugin, IPlugin
         {
             string pluginPath = string.Empty;
             PluginAssembly loadedAssembly = null;
@@ -269,7 +270,14 @@ namespace Application.Plugins
             }
             else
             {
-                pluginPath = Path.Combine(this.PluginsFolder, string.Format("{0}{1}", PluginName, !PluginName.EndsWith(".dll", StringComparison.InvariantCultureIgnoreCase) ? ".dll" : string.Empty)).Trim().ToLower().ToString();
+                if (string.IsNullOrWhiteSpace(Subfolder))
+                {
+                    pluginPath = Path.Combine(this.PluginsFolder, string.Format("{0}{1}", PluginName, !PluginName.EndsWith(".dll", StringComparison.InvariantCultureIgnoreCase) ? ".dll" : string.Empty)).Trim().ToLower().ToString();
+                }
+                else
+                {
+                    pluginPath = Path.Combine(this.PluginsFolder,Subfolder, string.Format("{0}{1}", PluginName, !PluginName.EndsWith(".dll", StringComparison.InvariantCultureIgnoreCase) ? ".dll" : string.Empty)).Trim().ToLower().ToString();
+                }
             }
 
             if (!assemblies.Value.ContainsKey(pluginPath))
@@ -317,11 +325,12 @@ namespace Application.Plugins
         /// <summary>
         /// Retrieve plugin instance as base plugin class 
         /// </summary>
-        /// <param name="PluginName"></param>
+        /// <param name="PluginName">Plugin assembly name of assembly file path</param>
+        /// <param name="Subfolder">Optional subfolder name where plugin assembly is located inside plugins folder</param>
         /// <returns></returns>
-        public IEnumerable<Plugin> GetPlugin(string PluginName)
+        public IEnumerable<Plugin> GetPlugin(string PluginName,string Subfolder = null)
         {
-            return GetPlugin<Plugin>(PluginName);
+            return GetPlugin<Plugin>(PluginName,Subfolder);
         }
 
         /// <summary>
