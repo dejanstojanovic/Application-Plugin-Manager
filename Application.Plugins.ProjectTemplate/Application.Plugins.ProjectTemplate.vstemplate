@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>ApplicationPlugin</Name>
+    <Description>Application Plugin Project Template</Description>
+    <Icon>Application.Plugins.ProjectTemplate.ico</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
+    <SortOrder>1000</SortOrder>
+    <TemplateID>ae9a5f2f-dda4-49f5-8282-43ab82ee4f53</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>ApplicationPlugin</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+  </TemplateData>
+  <TemplateContent>
+    <References>
+      <Reference>
+        <Assembly>
+          System.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        </Assembly>
+      </Reference>
+      <Reference>
+        <Assembly>
+          System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        </Assembly>
+      </Reference>
+      <Reference>
+        <Assembly>
+          System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        </Assembly>
+      </Reference>
+      <Reference>
+        <Assembly>
+          System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        </Assembly>
+      </Reference>
+    </References>
+
+    <Project File="ProjectTemplate.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="Properties\AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" OpenInEditor="true">Plugin.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>NuGet.VisualStudio.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <packages repository="extension" repositoryId="Applicatin.Plugins.Extension..3cbe7379-7e7b-4aeb-870a-8c1693a4c48b">
+      <package  id="Application.Plugins" version="1.0.0"/>
+    </packages>
+  </WizardData>
+</VSTemplate>

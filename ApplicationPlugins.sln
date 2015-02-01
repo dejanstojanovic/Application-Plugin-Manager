@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Plugins", "Application.Plugins\Application.Plugins.csproj", "{6529CDBE-40C7-41D9-9578-8684A7841810}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Plugins.Testing", "Application.Plugins.Testing\Application.Plugins.Testing.csproj", "{E253880A-24EC-4D3A-9CDD-CB7421CA073F}"
@@ -15,42 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Sample.PluginHo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Sample.Base", "Application.Sample.Base\Application.Sample.Base.csproj", "{36C6909A-8B6A-4A76-9AD8-2AE28BCBBE40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Plugins.ProjectTemplate", "Application.Plugins.ProjectTemplate\Application.Plugins.ProjectTemplate.csproj", "{70B46206-6037-4F47-A45B-6C602926ACE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Applicatin.Plugins.Extension", "Applicatin.Plugins.Extension\Applicatin.Plugins.Extension.csproj", "{814C74B4-A7FB-4D1E-8978-D87CF72FE4B2}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://dejanstojanovic.visualstudio.com/defaultcollection
-		SccProjectUniqueName0 = Application.Plugins\\Application.Plugins.csproj
-		SccProjectName0 = Application.Plugins
-		SccAuxPath0 = https://dejanstojanovic.visualstudio.com/defaultcollection
-		SccLocalPath0 = Application.Plugins
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName1 = Application.Plugins.Testing\\Application.Plugins.Testing.csproj
-		SccProjectName1 = Application.Plugins.Testing
-		SccAuxPath1 = https://dejanstojanovic.visualstudio.com/defaultcollection
-		SccLocalPath1 = Application.Plugins.Testing
-		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName2 = Application.Sample.Plugin1\\Application.Sample.Plugin1.csproj
-		SccProjectName2 = Application.Sample.Plugin1
-		SccAuxPath2 = https://dejanstojanovic.visualstudio.com/defaultcollection
-		SccLocalPath2 = Application.Sample.Plugin1
-		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName3 = Application.Sample.Plugin2\\Application.Sample.Plugin2.csproj
-		SccProjectName3 = Application.Sample.Plugin2
-		SccAuxPath3 = https://dejanstojanovic.visualstudio.com/defaultcollection
-		SccLocalPath3 = Application.Sample.Plugin2
-		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName4 = Application.Sample.PluginHost\\Application.Sample.PluginHost.csproj
-		SccProjectName4 = Application.Sample.PluginHost
-		SccAuxPath4 = https://dejanstojanovic.visualstudio.com/defaultcollection
-		SccLocalPath4 = Application.Sample.PluginHost
-		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName5 = Application.Sample.Base\\Application.Sample.Base.csproj
-		SccProjectName5 = Application.Sample.Base
-		SccAuxPath5 = https://dejanstojanovic.visualstudio.com/defaultcollection
-		SccLocalPath5 = Application.Sample.Base
-		SccProvider5 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -80,6 +47,14 @@ Global
 		{36C6909A-8B6A-4A76-9AD8-2AE28BCBBE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36C6909A-8B6A-4A76-9AD8-2AE28BCBBE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36C6909A-8B6A-4A76-9AD8-2AE28BCBBE40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B46206-6037-4F47-A45B-6C602926ACE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B46206-6037-4F47-A45B-6C602926ACE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B46206-6037-4F47-A45B-6C602926ACE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B46206-6037-4F47-A45B-6C602926ACE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{814C74B4-A7FB-4D1E-8978-D87CF72FE4B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{814C74B4-A7FB-4D1E-8978-D87CF72FE4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{814C74B4-A7FB-4D1E-8978-D87CF72FE4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{814C74B4-A7FB-4D1E-8978-D87CF72FE4B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
