@@ -22,8 +22,6 @@ namespace Application.Plugins
     public sealed class PluginManager : IDisposable
     {
         #region Fields
-        private Lazy<object> lockObject = new Lazy<object>(() => new Lazy<object>());
-        //private Lazy<ConcurrentDictionary<string, PluginAssembly>> assemblies = new Lazy<ConcurrentDictionary<string, PluginAssembly>>(() => new ConcurrentDictionary<string, PluginAssembly>());
         private Lazy<Hashtable> assemblies = new Lazy<Hashtable>(() => Hashtable.Synchronized(new Hashtable()));
         private FileSystemWatcher watcher = null;
         private System.Timers.Timer cacheExpiryTimer = null;
@@ -278,7 +276,7 @@ namespace Application.Plugins
                 }
                 else
                 {
-                    pluginPath = Path.Combine(this.PluginsFolder,Subfolder, string.Format("{0}{1}", PluginName, !PluginName.EndsWith(".dll", StringComparison.InvariantCultureIgnoreCase) ? ".dll" : string.Empty)).Trim().ToLower().ToString();
+                    pluginPath = Path.Combine(this.PluginsFolder, Subfolder, string.Format("{0}{1}", PluginName, !PluginName.EndsWith(".dll", StringComparison.InvariantCultureIgnoreCase) ? ".dll" : string.Empty)).Trim().ToLower().ToString();
                 }
             }
 
@@ -301,10 +299,7 @@ namespace Application.Plugins
                 //Update load time if sliding expiration
                 if (this.CachePolicy.SlidingExpiration)
                 {
-                    lock (assemblies.Value)
-                    {
-                        assemblies.Value[pluginPath]= new PluginAssembly(DateTime.Now, loadedAssembly.Assembly);
-                    }
+                    assemblies.Value[pluginPath] = new PluginAssembly(DateTime.Now, loadedAssembly.Assembly);
                 }
             }
 
@@ -328,9 +323,9 @@ namespace Application.Plugins
         /// <param name="PluginName">Plugin assembly name of assembly file path</param>
         /// <param name="Subfolder">Optional subfolder name where plugin assembly is located inside plugins folder</param>
         /// <returns></returns>
-        public IEnumerable<Plugin> GetPlugin(string PluginName,string Subfolder = null)
+        public IEnumerable<Plugin> GetPlugin(string PluginName, string Subfolder = null)
         {
-            return GetPlugin<Plugin>(PluginName,Subfolder);
+            return GetPlugin<Plugin>(PluginName, Subfolder);
         }
 
         /// <summary>
@@ -398,29 +393,25 @@ namespace Application.Plugins
         {
             if (assemblies != null && assemblies.Value != null)
             {
-                var expiredAssemblies = this.assemblies.Value.Cast<KeyValuePair<string,PluginAssembly>>().Where(a => a.Value.LoadTime.AddMilliseconds(this.CachePolicy.CacheExpiryInterval) <= DateTime.Now);
+                var expiredAssemblies = this.assemblies.Value.Cast<KeyValuePair<string, PluginAssembly>>().Where(a => a.Value.LoadTime.AddMilliseconds(this.CachePolicy.CacheExpiryInterval) <= DateTime.Now);
                 if (expiredAssemblies.Any())
                 {
-                    lock (assemblies.Value)
+                    foreach (var expiredAssembly in expiredAssemblies)
                     {
-                        foreach (var expiredAssembly in expiredAssemblies)
+                        if (this.CachePolicy.AutoReloadOnCacheExpire)
                         {
-                            if (this.CachePolicy.AutoReloadOnCacheExpire)
+                            assemblies.Value[expiredAssembly.Key] = new PluginAssembly(DateTime.Now, this.LoadAssemblyFromFilesystem(expiredAssembly.Key));
+                            if (AssemblyLoaded != null)
                             {
-                                assemblies.Value[expiredAssembly.Key]= new PluginAssembly(DateTime.Now, this.LoadAssemblyFromFilesystem(expiredAssembly.Key));
-                                if (AssemblyLoaded != null)
-                                {
-                                    AssemblyLoaded(this, new PluginEventArgs(expiredAssembly.Key));
-                                }
+                                AssemblyLoaded(this, new PluginEventArgs(expiredAssembly.Key));
                             }
-                            else
+                        }
+                        else
+                        {
+                            assemblies.Value.Remove(expiredAssembly.Key);
+                            if (AssemblyRemovedFromCache != null)
                             {
-                                PluginAssembly removedAssembly;
-                                assemblies.Value.Remove(expiredAssembly.Key);
-                                if (AssemblyRemovedFromCache != null)
-                                {
-                                    AssemblyRemovedFromCache(this, new PluginEventArgs(expiredAssembly.Key));
-                                }
+                                AssemblyRemovedFromCache(this, new PluginEventArgs(expiredAssembly.Key));
                             }
                         }
                     }
@@ -428,55 +419,51 @@ namespace Application.Plugins
             }
         }
 
-        protected void watcher_Changed(object sender, FileSystemEventArgs e)
+        private void watcher_Changed(object sender, FileSystemEventArgs e)
         {
             PluginAssembly loadedAssembly = null;
             PluginAssembly cachedAssembly = null;
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
                 //Update in cache
-                
-                    if (assemblies.Value.ContainsKey(e.FullPath.Trim().ToLower()))
+
+                if (assemblies.Value.ContainsKey(e.FullPath.Trim().ToLower()))
+                {
+                    cachedAssembly = assemblies.Value[e.FullPath.Trim().ToLower()] as PluginAssembly;
+
+                    // Realod assembly if file is older than CachePolicy.FilesystemWatcherDelay miliseconds 
+                    // to avoid issue with FileSystemWatcher multiple eventson file cache
+                    if (cachedAssembly.LoadTime.AddMilliseconds(this.CachePolicy.FilesystemWatcherDelay) < DateTime.Now)
                     {
-                        cachedAssembly = assemblies.Value[e.FullPath.Trim().ToLower()] as PluginAssembly;
 
-                        // Realod assembly if file is older than CachePolicy.FilesystemWatcherDelay miliseconds 
-                        // to avoid issue with FileSystemWatcher multiple eventson file cache
-                        if (cachedAssembly.LoadTime.AddMilliseconds(this.CachePolicy.FilesystemWatcherDelay) < DateTime.Now)
+                        Assembly loadedPlugin = LoadAssemblyFromFilesystem(e.FullPath.Trim().ToLower());
+                        if (loadedPlugin != null)
                         {
-
-                            Assembly loadedPlugin = LoadAssemblyFromFilesystem(e.FullPath.Trim().ToLower());
-                            if (loadedPlugin != null)
+                            loadedAssembly = new PluginAssembly(DateTime.Now, loadedPlugin);
+                            assemblies.Value[e.FullPath.Trim().ToLower()] = loadedAssembly;
+                            if (AssemblyLoaded != null)
                             {
-                                loadedAssembly = new PluginAssembly(DateTime.Now, loadedPlugin);
-                                assemblies.Value[e.FullPath.Trim().ToLower()]= loadedAssembly;
-                                if (AssemblyLoaded != null)
-                                {
-                                    AssemblyLoaded(this, new PluginEventArgs(e.FullPath.Trim().ToLower()));
-                                }
+                                AssemblyLoaded(this, new PluginEventArgs(e.FullPath.Trim().ToLower()));
                             }
                         }
                     }
                 }
             }
+        }
 
-        
 
-        protected void watcher_Deleted(object sender, FileSystemEventArgs e)
+
+        private void watcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            lock (assemblies.Value)
+            if (e.ChangeType == WatcherChangeTypes.Deleted)
             {
-                PluginAssembly cachedAssembly = null;
-                if (e.ChangeType == WatcherChangeTypes.Deleted)
+                //Remove from cache
+                if (assemblies.Value.ContainsKey(e.FullPath.Trim().ToLower()))
                 {
-                    //Remove from cache
-                    if (assemblies.Value.ContainsKey(e.FullPath.Trim().ToLower()))
+                    assemblies.Value.Remove(e.FullPath.Trim().ToLower());
+                    if (AssemblyRemovedFromCache != null)
                     {
-                        assemblies.Value.Remove(e.FullPath.Trim().ToLower());
-                        if (AssemblyRemovedFromCache != null)
-                        {
-                            AssemblyRemovedFromCache(this, new PluginEventArgs(e.FullPath.Trim().ToLower()));
-                        }
+                        AssemblyRemovedFromCache(this, new PluginEventArgs(e.FullPath.Trim().ToLower()));
                     }
                 }
             }
