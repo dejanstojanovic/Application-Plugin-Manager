@@ -303,7 +303,10 @@ namespace Application.Plugins
                     //assemblies.Value.TryUpdate(pluginPath, new PluginAssembly(DateTime.Now, loadedAssembly.Assembly), loadedAssembly);
                     assemblies.Value.AddOrUpdate(pluginPath, new PluginAssembly(DateTime.Now, loadedAssembly.Assembly), (key, oldValue) => new PluginAssembly(DateTime.Now, loadedAssembly.Assembly));
                 }
-                //assemblies.Value.TryGetValue(pluginPath, out loadedAssembly);
+                else
+                {
+                    assemblies.Value.TryGetValue(pluginPath, out loadedAssembly);
+                }
             }
 
             if (pluginTypes == null)
