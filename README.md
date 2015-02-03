@@ -1,7 +1,7 @@
 # Application-Plugin-Manager
 Advanced plugin management in application, especially deigned for heavy load services which requires high performance in multi-thread environment while keeping hight level of extensibility with 0% downtime when upgrading the service functionality.
 
-_[Core of this library was developed without using MEF. Future version will heavily relly on Managed Extensibility Framework - MEF]_
+_Core of this library was developed without using MEF. Future version will heavily relly on Managed Extensibility Framework - MEF (documentation and sample code available on [codeplex](https://mef.codeplex.com/) and  [msdn](https://msdn.microsoft.com/en-us/library/dd460648(v=vs.110).aspx))_
 
 ###What is it
 The initial idea for this library was to use simple plugin approach described in my blog [http://dejanstojanovic.net/aspnet/2014/october/simple-plugin-host-application-approach/](http://dejanstojanovic.net/aspnet/2014/october/simple-plugin-host-application-approach/). 
