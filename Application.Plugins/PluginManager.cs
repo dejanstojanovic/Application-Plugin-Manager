@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Application.Plugins.Caching;
+using System.Collections;
 
 namespace Application.Plugins
 {
@@ -22,7 +23,8 @@ namespace Application.Plugins
     {
         #region Fields
         private Lazy<object> lockObject = new Lazy<object>(() => new Lazy<object>());
-        private Lazy<ConcurrentDictionary<string, PluginAssembly>> assemblies = new Lazy<ConcurrentDictionary<string, PluginAssembly>>(() => new ConcurrentDictionary<string, PluginAssembly>());
+        //private Lazy<ConcurrentDictionary<string, PluginAssembly>> assemblies = new Lazy<ConcurrentDictionary<string, PluginAssembly>>(() => new ConcurrentDictionary<string, PluginAssembly>());
+        private Lazy<Hashtable> assemblies = new Lazy<Hashtable>(() => Hashtable.Synchronized(new Hashtable()));
         private FileSystemWatcher watcher = null;
         private System.Timers.Timer cacheExpiryTimer = null;
         private string pluginsFolder;
@@ -287,7 +289,7 @@ namespace Application.Plugins
                 //Do not add to cache if cache policy not defined or assembly does not have IPlugin classes
                 if (this.CachePolicy != null && pluginTypes != null && pluginTypes.Any())
                 {
-                    assemblies.Value.TryAdd(pluginPath, loadedAssembly);
+                    assemblies.Value.Add(pluginPath, loadedAssembly);
                     if (AssemblyLoaded != null)
                     {
                         AssemblyLoaded(this, new PluginEventArgs(pluginPath));
@@ -301,11 +303,9 @@ namespace Application.Plugins
                 {
                     lock (assemblies.Value)
                     {
-                        assemblies.Value.TryGetValue(pluginPath, out loadedAssembly);
-                        assemblies.Value.TryUpdate(pluginPath, new PluginAssembly(DateTime.Now, loadedAssembly.Assembly), loadedAssembly);
+                        assemblies.Value[pluginPath]= new PluginAssembly(DateTime.Now, loadedAssembly.Assembly);
                     }
                 }
-                assemblies.Value.TryGetValue(pluginPath, out loadedAssembly);
             }
 
             if (pluginTypes == null)
@@ -398,7 +398,7 @@ namespace Application.Plugins
         {
             if (assemblies != null && assemblies.Value != null)
             {
-                var expiredAssemblies = this.assemblies.Value.Where(a => a.Value.LoadTime.AddMilliseconds(this.CachePolicy.CacheExpiryInterval) <= DateTime.Now);
+                var expiredAssemblies = this.assemblies.Value.Cast<KeyValuePair<string,PluginAssembly>>().Where(a => a.Value.LoadTime.AddMilliseconds(this.CachePolicy.CacheExpiryInterval) <= DateTime.Now);
                 if (expiredAssemblies.Any())
                 {
                     lock (assemblies.Value)
@@ -407,7 +407,7 @@ namespace Application.Plugins
                         {
                             if (this.CachePolicy.AutoReloadOnCacheExpire)
                             {
-                                assemblies.Value.TryUpdate(expiredAssembly.Key, new PluginAssembly(DateTime.Now, this.LoadAssemblyFromFilesystem(expiredAssembly.Key)), expiredAssembly.Value);
+                                assemblies.Value[expiredAssembly.Key]= new PluginAssembly(DateTime.Now, this.LoadAssemblyFromFilesystem(expiredAssembly.Key));
                                 if (AssemblyLoaded != null)
                                 {
                                     AssemblyLoaded(this, new PluginEventArgs(expiredAssembly.Key));
@@ -416,7 +416,7 @@ namespace Application.Plugins
                             else
                             {
                                 PluginAssembly removedAssembly;
-                                assemblies.Value.TryRemove(expiredAssembly.Key, out removedAssembly);
+                                assemblies.Value.Remove(expiredAssembly.Key);
                                 if (AssemblyRemovedFromCache != null)
                                 {
                                     AssemblyRemovedFromCache(this, new PluginEventArgs(expiredAssembly.Key));
@@ -435,11 +435,10 @@ namespace Application.Plugins
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
                 //Update in cache
-                lock (assemblies.Value)
-                {
+                
                     if (assemblies.Value.ContainsKey(e.FullPath.Trim().ToLower()))
                     {
-                        assemblies.Value.TryGetValue(e.FullPath.Trim().ToLower(), out cachedAssembly);
+                        cachedAssembly = assemblies.Value[e.FullPath.Trim().ToLower()] as PluginAssembly;
 
                         // Realod assembly if file is older than CachePolicy.FilesystemWatcherDelay miliseconds 
                         // to avoid issue with FileSystemWatcher multiple eventson file cache
@@ -450,7 +449,7 @@ namespace Application.Plugins
                             if (loadedPlugin != null)
                             {
                                 loadedAssembly = new PluginAssembly(DateTime.Now, loadedPlugin);
-                                assemblies.Value.TryUpdate(e.FullPath.Trim().ToLower(), loadedAssembly, cachedAssembly);
+                                assemblies.Value[e.FullPath.Trim().ToLower()]= loadedAssembly;
                                 if (AssemblyLoaded != null)
                                 {
                                     AssemblyLoaded(this, new PluginEventArgs(e.FullPath.Trim().ToLower()));
@@ -461,7 +460,7 @@ namespace Application.Plugins
                 }
             }
 
-        }
+        
 
         protected void watcher_Deleted(object sender, FileSystemEventArgs e)
         {
@@ -473,7 +472,7 @@ namespace Application.Plugins
                     //Remove from cache
                     if (assemblies.Value.ContainsKey(e.FullPath.Trim().ToLower()))
                     {
-                        assemblies.Value.TryRemove(e.FullPath.Trim().ToLower(), out cachedAssembly);
+                        assemblies.Value.Remove(e.FullPath.Trim().ToLower());
                         if (AssemblyRemovedFromCache != null)
                         {
                             AssemblyRemovedFromCache(this, new PluginEventArgs(e.FullPath.Trim().ToLower()));
