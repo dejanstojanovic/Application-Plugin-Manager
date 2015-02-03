@@ -21,7 +21,7 @@ namespace Application.Sample.PluginHost
 
         static void Main(string[] args)
         {
-            //Console.ReadLine();
+            Console.ReadLine();
             DateTime noCacheStartTime;
             DateTime noCacheEndTime;
 
