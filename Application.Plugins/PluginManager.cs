@@ -286,7 +286,6 @@ namespace Application.Plugins
                 //Do not add to cache if cache policy not defined or assembly does not have IPlugin classes
                 if (this.CachePolicy != null && pluginTypes != null && pluginTypes.Any())
                 {
-                    //assemblies.Value.TryAdd(pluginPath, loadedAssembly);
                     assemblies.Value.AddOrUpdate(pluginPath, loadedAssembly, (key, oldValue) => loadedAssembly);
                     if (AssemblyLoaded != null)
                     {
@@ -299,8 +298,6 @@ namespace Application.Plugins
                 //Update load time if sliding expiration
                 if (this.CachePolicy.SlidingExpiration)
                 {
-                    //assemblies.Value.TryGetValue(pluginPath, out loadedAssembly);
-                    //assemblies.Value.TryUpdate(pluginPath, new PluginAssembly(DateTime.Now, loadedAssembly.Assembly), loadedAssembly);
                     assemblies.Value.AddOrUpdate(pluginPath, new PluginAssembly(DateTime.Now, loadedAssembly.Assembly), (key, oldValue) => new PluginAssembly(DateTime.Now, loadedAssembly.Assembly));
                 }
                 else
@@ -406,8 +403,7 @@ namespace Application.Plugins
                     {
                         if (this.CachePolicy.AutoReloadOnCacheExpire)
                         {
-                            //assemblies.Value.TryUpdate(expiredAssembly.Key, new PluginAssembly(DateTime.Now, this.LoadAssemblyFromFilesystem(expiredAssembly.Key)), expiredAssembly.Value);
-                            assemblies.Value.AddOrUpdate(expiredAssembly.Key, 
+                            assemblies.Value.AddOrUpdate(expiredAssembly.Key,
                                 new PluginAssembly(DateTime.Now, this.LoadAssemblyFromFilesystem(expiredAssembly.Key)),
                                 (key, oldValue) => new PluginAssembly(DateTime.Now, this.LoadAssemblyFromFilesystem(expiredAssembly.Key)));
                             if (AssemblyLoaded != null)
@@ -449,7 +445,6 @@ namespace Application.Plugins
                         if (loadedPlugin != null)
                         {
                             loadedAssembly = new PluginAssembly(DateTime.Now, loadedPlugin);
-                            //assemblies.Value.TryUpdate(e.FullPath.Trim().ToLower(), loadedAssembly, cachedAssembly);
                             assemblies.Value.AddOrUpdate(
                                 e.FullPath.Trim().ToLower(),
                                 loadedAssembly,
