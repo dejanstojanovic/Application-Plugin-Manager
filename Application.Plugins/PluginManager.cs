@@ -297,6 +297,7 @@ namespace Application.Plugins
             else
             {
                 //Update load time if sliding expiration
+                loadedAssembly = assemblies.Value[pluginPath] as PluginAssembly;
                 if (this.CachePolicy.SlidingExpiration)
                 {
                     assemblies.Value[pluginPath] = new PluginAssembly(DateTime.Now, loadedAssembly.Assembly);
@@ -393,17 +394,17 @@ namespace Application.Plugins
         {
             if (assemblies != null && assemblies.Value != null)
             {
-                var expiredAssemblies = this.assemblies.Value.Cast<KeyValuePair<string, PluginAssembly>>().Where(a => a.Value.LoadTime.AddMilliseconds(this.CachePolicy.CacheExpiryInterval) <= DateTime.Now);
+                var expiredAssemblies = this.assemblies.Value.Cast<DictionaryEntry>().Where(a => ((PluginAssembly)a.Value).LoadTime.AddMilliseconds(this.CachePolicy.CacheExpiryInterval) <= DateTime.Now);
                 if (expiredAssemblies.Any())
                 {
                     foreach (var expiredAssembly in expiredAssemblies)
                     {
                         if (this.CachePolicy.AutoReloadOnCacheExpire)
                         {
-                            assemblies.Value[expiredAssembly.Key] = new PluginAssembly(DateTime.Now, this.LoadAssemblyFromFilesystem(expiredAssembly.Key));
+                            assemblies.Value[expiredAssembly.Key] = new PluginAssembly(DateTime.Now, this.LoadAssemblyFromFilesystem(expiredAssembly.Key.ToString()));
                             if (AssemblyLoaded != null)
                             {
-                                AssemblyLoaded(this, new PluginEventArgs(expiredAssembly.Key));
+                                AssemblyLoaded(this, new PluginEventArgs(expiredAssembly.Key.ToString()));
                             }
                         }
                         else
@@ -411,7 +412,7 @@ namespace Application.Plugins
                             assemblies.Value.Remove(expiredAssembly.Key);
                             if (AssemblyRemovedFromCache != null)
                             {
-                                AssemblyRemovedFromCache(this, new PluginEventArgs(expiredAssembly.Key));
+                                AssemblyRemovedFromCache(this, new PluginEventArgs(expiredAssembly.Key.ToString()));
                             }
                         }
                     }
