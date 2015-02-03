@@ -18,10 +18,9 @@ using Application.Plugins.Caching;
 namespace Application.Plugins
 {
 
-    public sealed class PluginManager : IDisposable
+    public class PluginManager : IDisposable
     {
         #region Fields
-        private Lazy<object> lockObject = new Lazy<object>(() => new Lazy<object>());
         private Lazy<ConcurrentDictionary<string, PluginAssembly>> assemblies = new Lazy<ConcurrentDictionary<string, PluginAssembly>>(() => new ConcurrentDictionary<string, PluginAssembly>());
         private FileSystemWatcher watcher = null;
         private System.Timers.Timer cacheExpiryTimer = null;
@@ -299,11 +298,8 @@ namespace Application.Plugins
                 //Update load time if sliding expiration
                 if (this.CachePolicy.SlidingExpiration)
                 {
-                    lock (assemblies.Value)
-                    {
                         assemblies.Value.TryGetValue(pluginPath, out loadedAssembly);
                         assemblies.Value.TryUpdate(pluginPath, new PluginAssembly(DateTime.Now, loadedAssembly.Assembly), loadedAssembly);
-                    }
                 }
                 assemblies.Value.TryGetValue(pluginPath, out loadedAssembly);
             }
@@ -401,8 +397,6 @@ namespace Application.Plugins
                 var expiredAssemblies = this.assemblies.Value.Where(a => a.Value.LoadTime.AddMilliseconds(this.CachePolicy.CacheExpiryInterval) <= DateTime.Now);
                 if (expiredAssemblies.Any())
                 {
-                    lock (assemblies.Value)
-                    {
                         foreach (var expiredAssembly in expiredAssemblies)
                         {
                             if (this.CachePolicy.AutoReloadOnCacheExpire)
@@ -423,7 +417,6 @@ namespace Application.Plugins
                                 }
                             }
                         }
-                    }
                 }
             }
         }
@@ -435,8 +428,6 @@ namespace Application.Plugins
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
                 //Update in cache
-                lock (assemblies.Value)
-                {
                     if (assemblies.Value.ContainsKey(e.FullPath.Trim().ToLower()))
                     {
                         assemblies.Value.TryGetValue(e.FullPath.Trim().ToLower(), out cachedAssembly);
@@ -458,15 +449,12 @@ namespace Application.Plugins
                             }
                         }
                     }
-                }
             }
 
         }
 
         protected void watcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            lock (assemblies.Value)
-            {
                 PluginAssembly cachedAssembly = null;
                 if (e.ChangeType == WatcherChangeTypes.Deleted)
                 {
@@ -480,7 +468,6 @@ namespace Application.Plugins
                         }
                     }
                 }
-            }
         }
         #endregion
 
