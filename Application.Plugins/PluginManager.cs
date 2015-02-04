@@ -400,7 +400,7 @@ namespace Application.Plugins
         {
             if (assemblies != null && assemblies.Value != null)
             {
-                var expiredAssemblies = this.assemblies.Value.Where(a => a.Value.LoadTime.AddMilliseconds(this.CachePolicy.CacheExpiryInterval) <= DateTime.Now).ToList();
+                var expiredAssemblies = this.assemblies.Value.Where(a => a.Value.LoadTime.AddMilliseconds(this.CachePolicy.CacheExpiryInterval) <= DateTime.Now);
                 if (expiredAssemblies.Any())
                 {
                     foreach (var expiredAssembly in expiredAssemblies)
