@@ -313,9 +313,12 @@ namespace Application.Plugins
 
             foreach (var type in pluginTypes)
             {
+                /*
                 var ctor = type.GetConstructor(new Type[] { typeof(string) });
                 var plugin = ctor.Invoke(new object[] { pluginPath });
                 yield return plugin as T;
+                 */
+                yield return Activator.CreateInstance(type, new object[] { pluginPath }) as T;
             }
         }
 
