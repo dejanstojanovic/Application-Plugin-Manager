@@ -36,7 +36,7 @@ namespace Application.Sample.PluginHost
                     {
                         if (plugin != null)
                         {
-                            //Console.WriteLine(string.Format("Plugin loaded {0}", DateTime.Now.ToString("HH:mm:ss:fff")));
+                            Console.WriteLine(string.Format("Plugin loaded {0}", DateTime.Now.ToString("HH:mm:ss:fff")));
                         }
                     }
                 }

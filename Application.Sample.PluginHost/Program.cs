@@ -25,7 +25,7 @@ namespace Application.Sample.PluginHost
                 CacheExpiryInterval = 3000
             }
             );
-            manager.AssemblyLoaded += factory_AssemblyLoaded;
+            //manager.AssemblyLoaded += factory_AssemblyLoaded;
 
             //MULTITHREAD TEST
             /*

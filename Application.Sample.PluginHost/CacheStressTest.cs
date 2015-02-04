@@ -20,7 +20,7 @@ namespace Application.Sample.PluginHost
 
         static void Main(string[] args)
         {
-            Console.ReadLine();
+            //Console.ReadLine();
             DateTime cacheStartTime;
             DateTime cacheEndTime;
 
@@ -28,7 +28,7 @@ namespace Application.Sample.PluginHost
             using (manager = new PluginManager(new CachePolicy()
             {
                 PolicyType = CachePolicyType.TimeInterval,
-                CacheExpiryInterval = 50
+                CacheExpiryInterval = 5000
             }))
             {
                 cacheStartTime = DateTime.Now;
@@ -39,7 +39,7 @@ namespace Application.Sample.PluginHost
                     {
                         if (plugin != null)
                         {
-                            //Console.WriteLine(string.Format("Plugin loaded {0}", DateTime.Now.ToString("HH:mm:ss:fff")));
+                            Console.WriteLine(string.Format("Plugin loaded {0}", DateTime.Now.ToString("HH:mm:ss:fff")));
                         }
                     }
                 }
