@@ -219,7 +219,7 @@ namespace Application.Plugins
 
                 this.cacheExpiryTimer = new System.Timers.Timer()
                 {
-                    Interval = 100,
+                    Interval = this.cachePolicy.CacheExpiryInterval,
                     Enabled = true,
                     AutoReset = true
                 };
