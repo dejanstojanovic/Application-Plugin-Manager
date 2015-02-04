@@ -11,6 +11,7 @@ using System.Configuration;
 using Application.Plugins;
 using System.Threading;
 using Application.Plugins.Caching;
+using Application.Sample.Base;
 namespace Application.Sample.PluginHost
 {
     class PluginLoad
@@ -24,30 +25,30 @@ namespace Application.Sample.PluginHost
             //Console.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff"));
 
             CachePolicy policy = CachePolicy.GetTimeIntervalCachePolicy();
-            policy.AutoReloadOnCacheExpire = false;
-            policy.CacheExpiryInterval = 5000;
+            policy.AutoReloadOnCacheExpire = true;
+            policy.CacheExpiryInterval = 2000;
             policy.SlidingExpiration = true;
             //PluginManager manager;
 
             manager = new PluginManager(policy);
 
+            var a = manager.GetPlugin<BasePlugin>("Application.Sample.Plugin1").ToList();
+
+            //foreach (var plugin in manager.GetPlugin<BasePlugin>("Application.Sample.Plugin1"))
+            //{
+            //    //do something with plugin
+            //}
+
             manager.AssemblyRemovedFromCache += manager_AssemblyRemovedFromCache;
             manager.AssemblyLoaded += manager_AssemblyLoaded;
 
-            var plugins = manager.GetPlugin<Plugin>("Application.Sample.Plugin1").ToList();
-            new Thread(() => {
-                while (true) {
-                    manager.GetPlugin<Plugin>("Application.Sample.Plugin1").ToList();
-                    Thread.Sleep(1000);
-                }
-            }).Start();
-
+            
             Console.ReadLine();
         }
 
         static void manager_AssemblyLoaded(object sender, PluginEventArgs e)
         {
-            
+            Console.WriteLine(string.Format("{0} {1}", e.AssemblyPath, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")));
         }
 
         static void manager_AssemblyRemovedFromCache(object sender, PluginEventArgs e)

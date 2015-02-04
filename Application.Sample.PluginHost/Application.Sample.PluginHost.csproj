@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Application.Sample.PluginHost.CacheStressTest</StartupObject>
+    <StartupObject>Application.Sample.PluginHost.PluginLoad</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

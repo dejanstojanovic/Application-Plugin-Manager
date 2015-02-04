@@ -20,7 +20,7 @@ namespace Application.Sample.PluginHost
 
         static void Main(string[] args)
         {
-            //Console.ReadLine();
+            Console.ReadLine();
             DateTime cacheStartTime;
             DateTime cacheEndTime;
 
@@ -48,7 +48,7 @@ namespace Application.Sample.PluginHost
             Console.Clear();
             Console.WriteLine("CACHE TEST END");
             Console.Write((cacheEndTime - cacheStartTime).TotalMilliseconds.ToString());
-            //Console.ReadLine();
+            Console.ReadLine();
         }
 
 
