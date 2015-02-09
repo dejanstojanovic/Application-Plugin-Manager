@@ -57,6 +57,7 @@
     <Compile Include="Caching\CachePolicy.cs" />
     <Compile Include="Config\ConfigSection.cs" />
     <Compile Include="PluginEventArgs.cs" />
+    <Compile Include="PluginHost.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="IPlugin.cs" />
