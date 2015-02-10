@@ -13,6 +13,18 @@ This solution solves few problems which MEF doesn't:
 - No need for host application restart when plugin assembly is updated
 - Allows assembly autoreload with caching rules
 
+####Assembly file locking
+When files are loaded by PluginManager they can be released alloving them to be replaced with new assemblies. For example if you fix some bugs in your plugin, you can just got to your application plugins folder and drop your assembly. It will be automatically picked up by your host application
+
+####Reloading assemblies on the runtime with simple file replacement
+As mentioned in the prevous point, just upload new assembly to host application plugins foder and it will be re-loaded according to PluginManager CachingPolicy
+
+####No need for host application restart when plugin assembly is updated
+If your host application is pretty busy Windows Service which needs to mantian 100% uptime, you should try this library because it does not require host application stopping to include new functionality.
+even if you add new plugin which needs to be loaded by a specific rule, just uplaod it to host application plugins folder and it will be availabe in the host application
+
+####Allows assembly autoreload with caching rules
+
 
 ###Performance boost with using plugin assembly caching
 The real power of application manager can be noticed when used ih multitherad, frequent plugin assembly load such as WCF services or similar services which need to process large amount of request using distributed code in isolated assemblies.
