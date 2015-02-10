@@ -1,12 +1,18 @@
 # Application-Plugin-Manager
 Advanced plugin management in application, especially deigned for heavy load services which requires high performance in multi-thread environment while keeping hight level of extensibility with 0% downtime when upgrading the service functionality.
 
-_Core of this library was developed without using MEF. Future version will heavily relly on Managed Extensibility Framework - MEF (documentation and sample code available on [codeplex](https://mef.codeplex.com/) and  [msdn](https://msdn.microsoft.com/en-us/library/dd460648(v=vs.110).aspx))_
-
 ###What is it
 The initial idea for this library was to use simple plugin approach described in my blog [http://dejanstojanovic.net/aspnet/2014/october/simple-plugin-host-application-approach/](http://dejanstojanovic.net/aspnet/2014/october/simple-plugin-host-application-approach/). 
 
 This simple approach can be useful for desktop application when your plugin will be loadad in your app most probably only once, but in case you want to use this approach in some very busy services, you might get out of the memory pretty quickly. That is why I started working on this library to enable using plugins without worries that application will loose on performance even though functinality is splited into seperate assembly files.
+
+###Differences comapring to MEF
+This solution solves few problems which MEF doesn't:
+- Assembly file locking
+- Reloading assemblies on the runtime with simple file replacement
+- No need for host application restart when plugin assembly is updated
+- Allows assembly autoreload with caching rules
+
 
 ###Performance boost with using plugin assembly caching
 The real power of application manager can be noticed when used ih multitherad, frequent plugin assembly load such as WCF services or similar services which need to process large amount of request using distributed code in isolated assemblies.
