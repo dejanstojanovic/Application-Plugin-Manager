@@ -6,6 +6,8 @@ The initial idea for this library was to use simple plugin approach described in
 
 This simple approach can be useful for desktop application when your plugin will be loadad in your app most probably only once, but in case you want to use this approach in some very busy services, you might get out of the memory pretty quickly. That is why I started working on this library to enable using plugins without worries that application will loose on performance even though functinality is splited into seperate assembly files.
 
+_This is not replacement for MEF and it is not intended to be. It is just a bit different approach trying to solve some issues which MEF(Managed Extensibility Framework) does not solve by default_
+
 ###Differences comapring to MEF
 This solution solves few problems which MEF doesn't:
 - Assembly file locking
@@ -21,10 +23,11 @@ As mentioned in the prevous point, just upload new assembly to host application 
 
 ####No need for host application restart when plugin assembly is updated
 If your host application is pretty busy Windows Service which needs to mantian 100% uptime, you should try this library because it does not require host application stopping to include new functionality.
-even if you add new plugin which needs to be loaded by a specific rule, just uplaod it to host application plugins folder and it will be availabe in the host application
+even if you add new plugin which needs to be loaded by a specific rule, just uplaod it to host application plugins folder and it will be availabe in the host application.
 
 ####Allows assembly autoreload with caching rules
-
+Depending on caching rules, ApplicationManager can cache instances of assemblies that inherit Plugin class and mantain low memory usage. Assemblies can be reloaded when assembly is changes, when certain period of time expires or both combined.
+Also if assembly is used very often than it can be kept or released by using sliding time expiration setting in cache policy of PluginManager instance.
 
 ###Performance boost with using plugin assembly caching
 The real power of application manager can be noticed when used ih multitherad, frequent plugin assembly load such as WCF services or similar services which need to process large amount of request using distributed code in isolated assemblies.
