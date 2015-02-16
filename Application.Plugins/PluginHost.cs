@@ -10,7 +10,7 @@ namespace Application.Plugins
     /// <summary>
     /// Provides base class with singletone PluginManager instance
     /// </summary>
-    public virtual class PluginHost
+    public abstract class PluginHost
     {
         private static PluginManager pluginManager;
 

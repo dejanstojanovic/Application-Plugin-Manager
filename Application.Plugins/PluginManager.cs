@@ -489,17 +489,27 @@ namespace Application.Plugins
         /// </summary>
         public void Dispose()
         {
-            if (this.cacheExpiryTimer != null)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                this.cacheExpiryTimer.Stop();
-                this.cacheExpiryTimer.Enabled = false;
-                cacheExpiryTimer.Dispose();
+                if (this.cacheExpiryTimer != null)
+                {
+                    this.cacheExpiryTimer.Stop();
+                    this.cacheExpiryTimer.Enabled = false;
+                    cacheExpiryTimer.Dispose();
+                }
+                if (this.watcher != null)
+                {
+                    this.watcher.EnableRaisingEvents = false;
+                    this.watcher.Dispose();
+                }
             }
-            if (this.watcher != null)
-            {
-                this.watcher.EnableRaisingEvents = false;
-                this.watcher.Dispose();
-            }
+            
         }
         #endregion
     }
