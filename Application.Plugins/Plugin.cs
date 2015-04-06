@@ -12,7 +12,7 @@ namespace Application.Plugins
     /// <summary>
     /// Plugin base class
     /// </summary>
-    public abstract class Plugin : IPlugin
+    public abstract class Plugin<T> : IPlugin where T:System.Web.Mvc.Controller
     {
         #region Implementation code
 
@@ -20,6 +20,7 @@ namespace Application.Plugins
         private string assemblyLocation;
         private System.Configuration.Configuration pluginConfiguration;
         private System.Configuration.Configuration hostConfiguration;
+        private Type entryController = null;
         #endregion
 
         #region Properties
@@ -56,6 +57,11 @@ namespace Application.Plugins
             }
         }
 
+        public Type EntryController
+        {
+            get { return entryController; }
+        }
+
         #endregion
 
         #region Constructors
@@ -87,12 +93,20 @@ namespace Application.Plugins
 
             hostConfiguration = ConfigurationManager.OpenExeConfiguration(Assembly.GetEntryAssembly().Location);
         }
+
+        public Plugin(Func<System.Web.Mvc.Controller, T> controller) 
+            : this()
+        {
+            entryController = controller.GetType();
+        }
+
+        public Plugin(Func<System.Web.Mvc.Controller, T> controller, string path = null)
+            : this(path)
+        {
+            entryController = controller.GetType();
+        }
         #endregion
 
         #endregion
-
-
-
-
     }
 }

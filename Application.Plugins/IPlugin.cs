@@ -38,8 +38,13 @@ namespace Application.Plugins
             get;
         }
 
-        #endregion
 
+        /// <summary>
+        /// Entry point controller name for plugin used in web
+        /// </summary>
+        string EntryControllerName { get; }
+
+        #endregion
 
     }
 }
