@@ -58,9 +58,6 @@ static void Main(string[] args)
     Console.Write((noCacheEndTime - noCacheStartTime).TotalMilliseconds.ToString());
 }
 ```
-![ScreenShot](http://dejanstojanovic.net/media/31627/no-cache.png)
-
-Managed memory performance graph WITHOUT using advanced plugin assembly caching
 
 ####High load of plugins without caching used
 ```cs
@@ -93,6 +90,3 @@ static void Main(string[] args)
     Console.Write((cacheEndTime - cacheStartTime).TotalMilliseconds.ToString());
 }
 ```
-![ScreenShot](http://dejanstojanovic.net/media/31626/cache.png)
-
-Managed memory performance graph WITH using advanced plugin assembly caching
