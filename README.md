@@ -94,3 +94,7 @@ static void Main(string[] args)
     Console.Write((cacheEndTime - cacheStartTime).TotalMilliseconds.ToString());
 }
 ```
+###Known issues
+Since assemblies are dynamically loaded during runtime at the same application domain, to avoid performance downgrade, it is not possible to unload previous vresion of assembly while the host is running.
+It reflects by occupying mamanged memory, but not significantly.
+Practically, plugin assemblies are not updated frequently which does not cause significant memory leak
