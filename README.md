@@ -7,13 +7,17 @@ The initial idea for this library was to use simple plugin approach described in
 This simple approach can be useful for desktop application when your plugin will be loadad in your app most probably only once, but in case you want to use this approach in some very busy services, you might get out of the memory pretty quickly. That is why I started working on this library to enable using plugins without worries that application will loose on performance even though functinality is splited into seperate assembly files.
 
 _This is not replacement for MEF and it is not intended to be. It is just a bit different approach trying to solve some issues which MEF(Managed Extensibility Framework) does not solve by default_
-
-###Differences comapring to MEF
+ME
+###Differences comparing to MEF
 This solution solves few problems which MEF doesn't:
 - Assembly file locking
 - Reloading assemblies on the runtime with simple file replacement
 - No need for host application restart when plugin assembly is updated
 - Allows assembly autoreload with caching rules
+
+###Differences comparing to MAF
+MAF uses separate app domains for code isolation which is based on object serialization. Using object serialization affects performances.
+
 
 ####Assembly file locking
 When files are loaded by PluginManager they can be released alloving them to be replaced with new assemblies. For example if you fix some bugs in your plugin, you can just got to your application plugins folder and drop your assembly. It will be automatically picked up by your host application
