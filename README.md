@@ -1,4 +1,9 @@
 # Application-Plugin-Manager
+
+-------------------------------------------------------------------------------------------------------------------------
+###_This project is depricated since I made it too complicated over time :). Will come up with something more elegant soon!_
+###_Stay tuned..._
+-------------------------------------------------------------------------------------------------------------------------
 Advanced plugin management in application, especially deigned for heavy load services which requires high performance in multi-thread environment while keeping hight level of extensibility with 0% downtime when upgrading the service functionality.
 
 ###What is it
