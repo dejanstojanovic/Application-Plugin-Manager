@@ -1,4 +1,4 @@
-# Application-Plugin-Manager
+# **[DEPRICATED]** Application-Plugin-Manager
 
 -------------------------------------------------------------------------------------------------------------------------
 ###_This project is depricated since I made it too complicated over time_ :sunglasses: _. Will come up with something more elegant soon!_
